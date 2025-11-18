@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Iframe Browser</title>
+    <title>Iframe Browser with Presets</title>
 
     <style>
         body {
@@ -13,17 +13,35 @@
             flex-direction: column;
             height: 100vh;
         }
+
         #controls {
             padding: 10px;
             background: #eee;
             display: flex;
             gap: 10px;
         }
+
         #url {
             flex: 1;
             padding: 8px;
             font-size: 16px;
         }
+
+        #presets {
+            padding: 10px;
+            background: #ddd;
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        button {
+            padding: 8px 14px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
         iframe {
             flex: 1;
             width: 100%;
@@ -33,22 +51,36 @@
 </head>
 <body>
 
+    <!-- PRESET WEBSITE BUTTONS -->
+    <div id="presets">
+        <!-- Add or remove presets here -->
+        <button onclick="loadPreset('https://web.archive.org/web/20250727184014/https://balatro-online.com')">Balatro</button>
+        <button onclick="loadPreset('https://wikipedia.org')">Wikipedia</button>
+        <button onclick="loadPreset('https://openai.com')">OpenAI</button>
+    </div>
+
+    <!-- URL BAR + GO BUTTON -->
     <div id="controls">
         <input id="url" type="text" placeholder="Enter a website (e.g. https://example.com)" />
         <button onclick="loadURL()">Go</button>
     </div>
 
+    <!-- IFRAME VIEWER -->
     <iframe id="viewer"></iframe>
 
     <script>
         function loadURL() {
             let url = document.getElementById('url').value.trim();
 
-            // If they type "example.com" instead of "https://example.com"
             if (!url.startsWith("http://") && !url.startsWith("https://")) {
                 url = "https://" + url;
             }
 
+            document.getElementById('viewer').src = url;
+        }
+
+        function loadPreset(url) {
+            document.getElementById('url').value = url;
             document.getElementById('viewer').src = url;
         }
     </script>
